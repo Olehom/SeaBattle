@@ -824,12 +824,11 @@ void StatisticMenu(const int x, const int y, int menuSize, User user, Settings s
 
 -----------
 
----------------
 ### Збереження та вивантаження гри
 Інколи буває таке, що ти не встигаєш дограти гру, або по якимось інакшим причинам, тобі потрібно зберігтись, щоб потім 
 знову продовжити грати. Для цього потрібно створити можливість зберігати гру
 
---------------
+-----------
 
 ###### Збереження
 
@@ -883,6 +882,7 @@ void resumeGame(Settings settings, User user) {
 }
 ```
 >Взято з [Controller.cpp](FinalProject/Controller.cpp)
+
 Вона перевіряє чи існує взагалі файл збереження і якщо так, то запускає функцію "loadUserGame":
 ```asm
 void loadUserGame(const User& user, Field& Field1, Field& Field2) {
