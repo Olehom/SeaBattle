@@ -60,7 +60,7 @@ struct Cell {
     int verifyType = 0;   // Незмінна клітинка
 };
 ```
-> Код взято з ![header.h](FinalProject/Header.h)
+> Код взято з [header.h](FinalProject/Header.h)
 
 int ships[10]{ 4,3,3,2,2,2,1,1,1,1 } - Розмір масиву це кількість кораблів. Число, це кількість палуб корабля.
 
@@ -75,7 +75,7 @@ enum Cells {
     AROUND_DESTROY = 4, SHIP = 5,
 };
 ```
-> Код взято з ![header.h](FinalProject/Header.h)
+> Код взято з [header.h](FinalProject/Header.h)
 
 
 І ось після того, як ми створили структуру поля, визначили за що відповідає кожна клітинка, настав час створити функцію,
@@ -155,7 +155,7 @@ enum Positions {
     X_WIN = 25,
 };
 ```
-> Код взято з ![header.h](FinalProject/Header.h)
+> Код взято з [header.h](FinalProject/Header.h)
 
 Думаю по назвам зрозуміло що за що відповідає.
 
@@ -541,7 +541,7 @@ struct User {
     int percentOfWin;
 };
 ```
-> Код взято з ![header.h](FinalProject/Header.h)
+> Код взято з [header.h](FinalProject/Header.h)
 
 
 Вона включає в себе:
@@ -706,7 +706,7 @@ struct Settings {
     ConsoleColor color;
 };
 ```
-> Код взято з ![header.h](FinalProject/Header.h)
+> Код взято з [header.h](FinalProject/Header.h)
 
 
 Досить простенька, включає в себе:
