@@ -335,4 +335,4 @@ int startMenu(const int x, const int y, int menuSize, int arrSize, string* MenuP
 не буде повернено якесь зі значень. В цілому код досить простий і зрозумілий. Якщо людина намагається вибратись за межі
 масиву, тоді вона або повертається на початок, або переходить у кінець.
 
-Ось як це виглядає:</br>![menuDemo.gif](menuDemo.gif)
+Ось як це виглядає:</br>![menuDemo.gif](images/menuDemo.gif)
