@@ -763,6 +763,15 @@ begin:
 ```
 > Код взято з [Field.cpp](FinalProject/Field.cpp)
 
+В цій відбувається зміна складності бота:
+```asm
+bool changeDifficulty(User user, Settings settings) {
+    string menuParagraph[2] = {"Easy", "Hard"};
+    return startMenu(X_MENU * 2, Y_ALL, 9, 2, menuParagraph, "Складність", settings);
+}
+```
+> Код взято з [Controller.cpp](FinalProject/Controller.cpp)
+
 В цій відбувається зміна кольору меню:
 ```asm
 int changeColor(Settings settings) {
@@ -1048,5 +1057,44 @@ bool AIHint(Field& Field, AI& Ai) {
 В ній обирається напрям пострілу та викликається функція "AIDefinition", щоб визначити, чи був потрапив корабель кудись.
 Якщо ні, тоді напрям змінюється на протилежний. Але якщо доходить до "RIGHT", тоді буде наступним напрямом буде обрано не "LEFT",
 а "DOWN" щоб почати з початку.
+
+-----------
+
+
+### Демонстрація
+Для демонстрації різниці між складностями і просто як розваги, я вирішив додати можливість подивтись на демонстраційний
+бій між двома ботами. Щоб подивитись на неї, потрібно зайти в пункт налаштувань і обрати "Демонстрація"
+
+--------------
+
+###### Функція демонстрації
+
+Демонстраційий бій відбувається у функції "botPlay":
+```asm
+void botPlay(Field& botField1, Field& botField2, Settings settings) {
+    AI Ai1;
+    AI Ai2;
+    string name;
+    int action, bot1Ships{ 20 }, bot2Ships{ 20 };
+    bool step = true;
+    while (!isShips(botField1.ships) && !isShips(botField2.ships)) {
+        fieldPrint(botField1, -1, -1, Y_ALL, false, X_PLAYER_FIGHT, settings.color);
+        fieldPrint(botField2, -1, -1, Y_ALL, false, X_BOT_FIGHT, settings.color);
+        if (step) {
+            difficultyChoiceAttack(settings, botField1, Ai1, action, step);
+        }
+        else {
+            difficultyChoiceAttack(settings, botField2, Ai2, action, step);
+        }
+        Sleep(75);
+    }
+    name = !isShips(botField2.ships) ? "Переміг другий бот" : "Переміг перший бот";
+    winAction(botField1, botField2, settings, name);
+}
+```
+> Код взято з [Attack.cpp](FinalProject/Attack.cpp)
+
+Запускається цикл який працює до моменту, поки у когось з ботів не буде кораблів і в кінці, взалежності від того який з ботів
+переміг, виводиться повідомлення про перемогу.
 
 -----------
