@@ -119,4 +119,4 @@ void fieldPrint(Field& Field, const int xMove, const int yMove, int y, bool isBo
 Обводка зруйнованого корабля > Обводка звичайного корабля > Корабель > Пустота". Кожна клітинка має свій колір, що дозволяє
 легше сприймати гру для звичайного користувача. В результаті ми отримуємо таке поле:
 
-![img.png](img.png)
+![field.png](images/field.png)
