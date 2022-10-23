@@ -822,4 +822,5 @@ void StatisticMenu(const int x, const int y, int menuSize, User user, Settings s
 і налаштування, щоб вивести з такими параметрами, з якими це бажає зробити користувач.
 
 Ось як це виглядає:<br/> ![Statistic.png](images/Statistic.png)
+
 -----------
