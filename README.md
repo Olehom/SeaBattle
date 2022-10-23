@@ -336,3 +336,35 @@ int startMenu(const int x, const int y, int menuSize, int arrSize, string* MenuP
 масиву, тоді вона або повертається на початок, або переходить у кінець.
 
 Ось як це виглядає:</br>![menuDemo.gif](images/menuDemo.gif)
+
+Також UI може бути модифікований користувачем. Можна змінити колір та символ. Це відбувається у цих двох функціях
+```
+char changeChar(Settings settings) {
+begin:
+char graphUnit;
+MenuPrint(3, X_MENU * 2.3, Y_ALL, settings.graphUnit, "", settings.color);
+SetCursorPosition(X_MENU * 2, Y_ALL + 4);
+cout << "Введіть будь-який символ";
+SetCursorPosition(X_MENU * 2.4 + 1, Y_ALL + 1);
+cin >> graphUnit;
+return graphUnit;
+}
+```
+```
+int changeColor(Settings settings) {
+begin:
+int choice;
+MenuPrint(3, X_MENU * 2.3, Y_ALL, settings.graphUnit, "", settings.color);
+SetCursorPosition(X_MENU * 1.8, Y_ALL + 4);
+for (i = 1; i < 16; i++) {
+SetColor((ConsoleColor)i, BLACK);
+cout << i << " ";
+}
+SetCursorPosition(X_MENU * 2.4 + 1, Y_ALL + 1);
+cin >> choice;
+if (choice < 1 || choice > 16) goto begin;
+return choice;
+}
+```
+Людина обирає бажанний параметр і змінює його так, як вона того захоче. Функції написано досить зрозуміло, тому нема сенсу
+їх додатково пояснювати, краще продемонструю як вони працюють:</br>![settingsChange.gif](images/settingsChange.gif)
