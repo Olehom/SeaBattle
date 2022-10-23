@@ -47,6 +47,7 @@ int ships[10]{ 4,3,3,2,2,2,1,1,1,1 };
 int shipCount{ 0 };
 };
 ```
+> Код взято з ![header.h](FinalProject/Header.h)
 
 Cell cells[10][10] - Це масив клітинок 10х10. Клітинку я вирішив створити з допомогою структури Cell. 
 Це зумовлено тим, що елементи поля я записую як цілі числа. Але при ручному розміщенні, користувач при переміщенні, 
@@ -59,6 +60,8 @@ struct Cell {
     int verifyType = 0;   // Незмінна клітинка
 };
 ```
+> Код взято з ![header.h](FinalProject/Header.h)
+
 int ships[10]{ 4,3,3,2,2,2,1,1,1,1 } - Розмір масиву це кількість кораблів. Число, це кількість палуб корабля.
 
 int shipCount{ 0 }; - Це змінна, яка дозволяє розставити кораблі так, щоб у кожного був свій номер у масиві. 
@@ -72,6 +75,8 @@ enum Cells {
     AROUND_DESTROY = 4, SHIP = 5,
 };
 ```
+> Код взято з ![header.h](FinalProject/Header.h)
+
 
 І ось після того, як ми створили структуру поля, визначили за що відповідає кожна клітинка, настав час створити функцію,
 яка буде виводити поле так, як потрібно нам.
@@ -150,6 +155,8 @@ enum Positions {
     X_WIN = 25,
 };
 ```
+> Код взято з ![header.h](FinalProject/Header.h)
+
 Думаю по назвам зрозуміло що за що відповідає.
 
 ---------------
@@ -483,18 +490,18 @@ char changeChar(Settings settings) {
 ```
 ```
 int changeColor(Settings settings) {
-begin:
-int choice;
-MenuPrint(3, X_MENU * 2.3, Y_ALL, settings.graphUnit, "", settings.color);
-SetCursorPosition(X_MENU * 1.8, Y_ALL + 4);
-for (i = 1; i < 16; i++) {
-SetColor((ConsoleColor)i, BLACK);
-cout << i << " ";
+    begin:
+    int choice;
+    MenuPrint(3, X_MENU * 2.3, Y_ALL, settings.graphUnit, "", settings.color);
+    SetCursorPosition(X_MENU * 1.8, Y_ALL + 4);
+    for (i = 1; i < 16; i++) {
+    SetColor((ConsoleColor)i, BLACK);
+    cout << i << " ";
 }
 SetCursorPosition(X_MENU * 2.4 + 1, Y_ALL + 1);
-cin >> choice;
-if (choice < 1 || choice > 16) goto begin;
-return choice;
+    cin >> choice;
+    if (choice < 1 || choice > 16) goto begin;
+    return choice;
 }
 ```
 Людина обирає бажанний параметр і змінює його так, як вона того захоче. Функції написано досить зрозуміло, тому нема сенсу
@@ -534,6 +541,8 @@ struct User {
     int percentOfWin;
 };
 ```
+> Код взято з ![header.h](FinalProject/Header.h)
+
 
 Вона включає в себе:
 1. Логін користувача.
@@ -697,6 +706,8 @@ struct Settings {
     ConsoleColor color;
 };
 ```
+> Код взято з ![header.h](FinalProject/Header.h)
+
 
 Досить простенька, включає в себе:
 1. Символ меню
