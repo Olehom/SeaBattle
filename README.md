@@ -311,6 +311,8 @@ void play(Field& playerField, Field& enemyField, Settings settings, User& user) 
     winAction(playerField, enemyField, settings, name);
 }
 ```
+> Код взято з [Attack.cpp](FinalProject/Attack.cpp)
+
 Приймається два поля (користувача й бота), налаштування і акаунт користувача.
 Потім взалежності від "step", обирається хто ходить. Якщо true - користувач.
 Якщо false - бот.
@@ -372,6 +374,8 @@ bool playerAttack(Field& botField, int& action, Settings settings, Field& player
     }
 }
 ```
+> Код взято з [Attack.cpp](FinalProject/Attack.cpp)
+
 Ця функція повертає те, чи влучив користувач. У функції цикл працює до того моменту, поки не буде повернено якесь значення.
 Код дуже схожий до розставлення корабля, але відрізняється тим, що тут замість корабля, ми переміщуємо приціл і при натисканні
 відбувається вистріл, який вже визначає, чи потрапила людина. Якщо так, то від корабля віднімається одна палуба, сама палуба стає зруйнованою,
@@ -407,6 +411,7 @@ void difficultyChoiceAttack(Settings settings, Field& Field, AI& Ai, int& action
     }
 }
 ```
+> Код взято з [Attack.cpp](FinalProject/Attack.cpp)
 
 Якщо "settings.difficulty" дорівнює "false" - тоді бот завжди б'є рандомно. Якщо
 "true" - тоді бот після попадання по кораблю, добиває його.
@@ -439,6 +444,8 @@ bool botAttack(Field& Field, int& action, int& xReturn, int& yReturn) {
     }
 }
 ```
+> Код взято з [Attack.cpp](FinalProject/Attack.cpp)
+
 Стріляє бот абсолютно рандомно, але якщо потрапляє в уже зруйнований корабель, або туди, куди він вже стріляв, тоді координати
 обираються спочатку.
 
@@ -479,6 +486,8 @@ int startMenu(const int x, const int y, int menuSize, int arrSize, string* MenuP
     }
 }
 ```
+> Код взято з [Menu.cpp](FinalProject/Menu.cpp)
+
 Вона приймає x та y розміщення, розмір меню, розмір массиву з кількістю пунктів, назву меню та налаштування. Працює поки
 не буде повернено якесь зі значень. В цілому код досить простий і зрозумілий. Якщо людина намагається вибратись за межі
 масиву, тоді вона або повертається на початок, або переходить у кінець.
@@ -498,6 +507,8 @@ char changeChar(Settings settings) {
     return graphUnit;
 }
 ```
+> Код взято з [Menu.cpp](FinalProject/Menu.cpp)
+
 ```asm
 int changeColor(Settings settings) {
     begin:
@@ -507,13 +518,14 @@ int changeColor(Settings settings) {
     for (i = 1; i < 16; i++) {
     SetColor((ConsoleColor)i, BLACK);
     cout << i << " ";
-}
-SetCursorPosition(X_MENU * 2.4 + 1, Y_ALL + 1);
+    SetCursorPosition(X_MENU * 2.4 + 1, Y_ALL + 1);
     cin >> choice;
     if (choice < 1 || choice > 16) goto begin;
     return choice;
 }
 ```
+> Код взято з [Menu.cpp](FinalProject/Menu.cpp)
+
 Людина обирає бажанний параметр і змінює його так, як вона того захоче. Функції написано досить зрозуміло, тому нема сенсу
 їх додатково пояснювати, краще покажу як вони працюють:<br/>![settingsChange.gif](images/settingsChange.gif)
 
@@ -527,6 +539,8 @@ void settingsToDefault(User& user) {
     user.difficulty = false;
 }
 ```
+> Код взято з [Accounts.cpp](FinalProject/Accounts.cpp)
+
 
 
 ---------------
@@ -638,6 +652,7 @@ User registerNewUser() {
     return user;
 }
 ```
+> Код взято з [Accounts.cpp](FinalProject/Accounts.cpp)
 
 Спочатку вона cтворює користувача та задає йому стандартні параметри. Далі виводить поле для вводу данних і після цього
 перевіряє їх на правильність. Якщо логін і пароль відповідають таким вимогам як - унікальність і більше 4 символів
@@ -696,6 +711,7 @@ User loginUser() {
     return user;
 }
 ```
+> Код взято з [Accounts.cpp](FinalProject/Accounts.cpp)
 
 По суті просто перевіряє правильність введених данних і повертає користувача, якщо данні є валідними.
 
@@ -746,6 +762,7 @@ begin:
     return graphUnit;
 }
 ```
+> Код взято з [Field.cpp](FinalProject/Field.cpp)
 
 В цій відбувається зміна кольору меню:
 ```asm
@@ -764,3 +781,4 @@ int changeColor(Settings settings) {
     return choice;
 }
 ```
+> Код взято з [Field.cpp](FinalProject/Field.cpp)
