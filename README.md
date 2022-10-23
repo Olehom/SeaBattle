@@ -136,7 +136,7 @@ enum Positions {
 };
 ```
 Думаю по назвам зрозуміло що за що відповідає.
-#### Розміщення
+### Розміщення
 
 Користувачеві доступні два варіанта розміщення: Автоматично та вручну.
 ###### Автоматично
@@ -296,3 +296,43 @@ bool playerAttack(Field& botField, int& action, Settings settings, Field& player
 позначається як "промах" і по ній більше неможливо вистрілити, також виводиться повідомлення про промах.
 
 Ось який це має вигляд:</br>![player_destroying.gif](images/player_destroying.gif)
+
+### Реалізація графічного інтерфейсу
+
+В проекті реалізовано більше 5 різних меню (Меню логіну, меню налаштувань, головне меню, тощо.) Тому я вирішив написати для
+них одну функцію.
+```
+int startMenu(const int x, const int y, int menuSize, int arrSize, string* MenuParagraph, string Name, Settings settings) {
+    system("cls");
+    int key, activeOption{ 0 };
+    MenuPrint(menuSize, x, y, settings.graphUnit, Name, settings.color);        // Виведення меню без кнопок
+    MenuOptionsPrint(menuSize, x, y, activeOption, MenuParagraph, arrSize, settings.color);     // Виведення кнопок
+    while (true) {
+        key = _getch();
+        if (key != -1) {
+            switch (key) {
+            case ENTER:
+                system("cls");
+                return activeOption;
+                break;
+            case UP_ARROW:
+                if (activeOption > 0) activeOption--;
+                else activeOption = arrSize - 1;
+                MenuOptionsPrint(menuSize, x, y, activeOption, MenuParagraph, arrSize, settings.color);
+                break;
+            case DOWN_ARROW:
+                if (activeOption < arrSize - 1) activeOption++;
+                else activeOption = 0;
+                MenuOptionsPrint(menuSize, x, y, activeOption, MenuParagraph, arrSize, settings.color);
+                break;
+            default: break;
+            }
+        }
+    }
+}
+```
+Вона приймає x та y розміщення, розмір меню, розмір массиву з кількістю пунктів, назву меню та налаштування. Працює поки
+не буде повернено якесь зі значень. В цілому код досить простий і зрозумілий. Якщо людина намагається вибратись за межі
+масиву, тоді вона або повертається на початок, або переходить у кінець.
+
+Ось як це виглядає:</br>![menuDemo.gif](menuDemo.gif)
