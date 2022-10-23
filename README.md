@@ -25,7 +25,8 @@
 # Основні моменти розробки
 #### Реалізація ігрового поля та основних правил гри
 Створити ігрове поле я вирішив з допомогою структури "Field"
-```
+
+```asm
 struct Field {
 Cell cells[10][10];                     
 int ships[10]{ 4,3,3,2,2,2,1,1,1,1 };
@@ -38,7 +39,7 @@ Cell cells[10][10] - Це масив клітинок 10х10. Клітинку �
 перезаписує їх під інше число (в данному випадку, число корабля, який він розміщує). Тому було створено структуру "Cell", 
 в якій знаходяться 2 змінні, перша відповідає за змінні клітинки, друга за незмінні (підтвердежні) 
 
-```
+```asm
 struct Cell {
     int type = 0;         // Змінна клітинка
     int verifyType = 0;   // Незмінна клітинка
@@ -50,7 +51,7 @@ int shipCount{ 0 }; - Це змінна, яка дозволяє розстав�
 Це в свою чергу, дозволяє визначити індекс корабля в масиві "ships" вже після розстановки і виявити, чи він потоплений.
 
 Для того щоб не заплутатись яка цифра за який елемент відповідає, я створив enum "Cells":
-```
+```asm
 enum Cells {
     EMPTY = 0, SHIP_PLACE = 1, AIM = 2, 
     DESTROY_SHIP = 1, MISS = 2, AROUND = 3,
@@ -60,7 +61,7 @@ enum Cells {
 
 І ось після того, як ми створили структуру поля, визначили за що відповідає кожна клітинка, настав час створити функцію,
 яка буде виводити поле так, як потрібно нам.
-```
+```asm
 void fieldPrint(Field& Field, const int xMove, const int yMove, int y, bool isBot, int x, ConsoleColor color) {
     string numeric = "ABCDEFGHIJ";
     int i, j;
@@ -122,7 +123,7 @@ void fieldPrint(Field& Field, const int xMove, const int yMove, int y, bool isBo
 ![field.png](images/field.png)
 
 Для зручності, я додатково створив enum "Positions", який визначає типові координати для розміщення певних елементів:
-```
+```asm
 enum Positions {
     Y_ALL = 8,
     Y_WIN = 12,
@@ -142,7 +143,7 @@ enum Positions {
 ###### Автоматично
 Автоматичне розміщення відбувається з допомогою цієї функції:
 
-```
+```asm
 void autoFieldPlacing(Field& Field) {
     for (int i = 0; i < 10; i++) {
         autoShipPlacing(Field, Field.ships[i]);
@@ -150,7 +151,7 @@ void autoFieldPlacing(Field& Field) {
 }
 ```
 В неї ми передаємо посилання на поле та 10 раз викликаємо наступну функцію:
-```
+```asm
 void autoShipPlacing(Field& Field, const int shipSize) {
     int i, x{-1}, y{-1};
     bool vertical{ true }, insertedPossible;
@@ -186,7 +187,7 @@ void autoShipPlacing(Field& Field, const int shipSize) {
 ###### Вручну
 Ручне розміщення відбувається з допомогою цієї функції:
 
-```
+```asm
 void userFieldPlacing(Field& Field, Settings settings) {
     for (int i = 0; i < 10; i++) {
         shipPlace(Field, Field.ships[i], settings);
@@ -195,7 +196,7 @@ void userFieldPlacing(Field& Field, Settings settings) {
 ```
 В неї ми передаємо посилання на поле і налаштування. Налаштування потрібні щоб розмітка мала такий колір, який задав користувач. 
 Потім 10 раз викликаємо наступну функцію:
-```
+```asm
 void shipPlace(Field& Field, int shipSize, Settings settings) {
     int i, x{ 0 }, y{ 0 }, key;
     bool vertical{ true }, insertedPossible{ true };
@@ -239,7 +240,7 @@ void shipPlace(Field& Field, int shipSize, Settings settings) {
 
 У функції руйнування корабля користувачем, ми передаємо поле бота, дію яка буде відображена після вистрілу, налаштування 
 для кольору розмітки, поле користувача і акаунт користувача щоб в разі чого, при натисканні ESC гра зберігалась й припинялась.
-```
+```asm
 bool playerAttack(Field& botField, int& action, Settings settings, Field& playerField, User user) {
     int dir{0}, key, x{0}, y{0}, shipSize{0};
     while (true) {
@@ -301,7 +302,7 @@ bool playerAttack(Field& botField, int& action, Settings settings, Field& player
 
 В проекті реалізовано більше 5 різних меню (Меню логіну, меню налаштувань, головне меню, тощо.) Тому я вирішив написати для
 них одну функцію.
-```
+```asm
 int startMenu(const int x, const int y, int menuSize, int arrSize, string* MenuParagraph, string Name, Settings settings) {
     system("cls");
     int key, activeOption{ 0 };
@@ -338,35 +339,44 @@ int startMenu(const int x, const int y, int menuSize, int arrSize, string* MenuP
 Ось як це виглядає:</br>![menuDemo.gif](images/menuDemo.gif)
 
 Також UI може бути модифікований користувачем. Можна змінити колір та символ. Це відбувається у цих двох функціях
-```
+```asm
 char changeChar(Settings settings) {
-begin:
-char graphUnit;
-MenuPrint(3, X_MENU * 2.3, Y_ALL, settings.graphUnit, "", settings.color);
-SetCursorPosition(X_MENU * 2, Y_ALL + 4);
-cout << "Введіть будь-який символ";
-SetCursorPosition(X_MENU * 2.4 + 1, Y_ALL + 1);
-cin >> graphUnit;
-return graphUnit;
+    begin:
+    char graphUnit;
+    MenuPrint(3, X_MENU * 2.3, Y_ALL, settings.graphUnit, "", settings.color);
+    SetCursorPosition(X_MENU * 2, Y_ALL + 4);
+    cout << "Введіть будь-який символ";
+    SetCursorPosition(X_MENU * 2.4 + 1, Y_ALL + 1);
+    cin >> graphUnit;
+    return graphUnit;
 }
 ```
-```
+```asm
 int changeColor(Settings settings) {
-begin:
-int choice;
-MenuPrint(3, X_MENU * 2.3, Y_ALL, settings.graphUnit, "", settings.color);
-SetCursorPosition(X_MENU * 1.8, Y_ALL + 4);
-for (i = 1; i < 16; i++) {
-SetColor((ConsoleColor)i, BLACK);
-cout << i << " ";
-}
-SetCursorPosition(X_MENU * 2.4 + 1, Y_ALL + 1);
-cin >> choice;
-if (choice < 1 || choice > 16) goto begin;
-return choice;
+    begin:
+    int choice;
+    MenuPrint(3, X_MENU * 2.3, Y_ALL, settings.graphUnit, "", settings.color);
+    SetCursorPosition(X_MENU * 1.8, Y_ALL + 4);
+    for (i = 1; i < 16; i++) {
+    SetColor((ConsoleColor)i, BLACK);
+    cout << i << " ";
+    }
+    SetCursorPosition(X_MENU * 2.4 + 1, Y_ALL + 1);
+    cin >> choice;
+    if (choice < 1 || choice > 16) goto begin;
+    return choice;
 }
 ```
 Людина обирає бажанний параметр і змінює його так, як вона того захоче. Функції написано досить зрозуміло, тому нема сенсу
 їх додатково пояснювати, краще продемонструю як вони працюють:</br>![settingsChange.gif](images/settingsChange.gif)
 
 Окрім цього, якщо користувач цього забажає, він може скинути налаштування до звичайних:</br>![settingsReset.gif](images/settingsReset.gif)
+
+Це виконує ця функція:
+```asm
+void settingsToDefault(User& user) {
+    user.color = RED_FADE;
+    user.graphUnit = '*';
+    user.difficulty = false;
+}
+```
