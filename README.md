@@ -120,3 +120,109 @@ void fieldPrint(Field& Field, const int xMove, const int yMove, int y, bool isBo
 легше сприймати гру для звичайного користувача. В результаті ми отримуємо таке поле:
 
 ![field.png](images/field.png)
+
+Для зручності, я додатково створив enum "Positions", який визначає типові координати для розміщення певних елементів:
+```
+enum Positions {
+    Y_ALL = 8,
+    Y_WIN = 12,
+    Y_MESSAGES = 19,
+    X_PLAYER_FIGHT = 20,
+    X_MENU = 24,
+    X_PLAYER_PLACE = 24,
+    X_MESSAGES = 26,
+    X_BOT_FIGHT = 35,
+    X_WIN = 25,
+};
+```
+Думаю по назвам зрозуміло що за що відповідає.
+#### Розміщення
+
+Користувачеві доступні два варіанта розміщення: Автоматично та вручну.
+###### Автоматично
+Автоматичне розміщення відбувається з допомогою цієї функції:
+
+```
+void autoFieldPlacing(Field& Field) {
+    for (int i = 0; i < 10; i++) {
+        autoShipPlacing(Field, Field.ships[i]);
+    }
+}
+```
+В неї ми передаємо посилання на поле та 10 раз викликаємо наступну функцію:
+```
+void autoShipPlacing(Field& Field, const int shipSize) {
+    int i, x{-1}, y{-1};
+    bool vertical{ true }, insertedPossible;
+    start: while (true) {
+        insertedPossible = true;
+        x = rand() % MAP_SIZE;
+        y = rand() % MAP_SIZE;
+        if (x + shipSize >= MAP_SIZE) goto start;
+        if (y + shipSize >= MAP_SIZE) goto start;
+        vertical = rand() % 2;
+        for (i = 0; i < shipSize; i++) {
+            if (vertical) {
+                if (!shipAround(Field, y + i, x)) goto start;
+            }
+            else {
+                if (!shipAround(Field, y, x + i)) goto start;
+            }
+        }
+        enterVerifyType(Field, y, x, shipSize, vertical);
+        fieldAroundInsert(Field, y, x, AROUND);
+        // Інкремент щоб у кожного корабля був свій індекс
+        Field.shipCount++;
+        break;
+    }
+}
+```
+Вона в свою чергу теж приймає посилання на поле і також розмір корабля, який потрібно розмістити.
+Потім запускається цикл, який виконується до того моменту, поки корабель не буде поставлено.
+В тілі циклу обираються рандомні координати та напрямок корабля. Якщо він не влізає, тоді цикл починається спочатку
+з допомогою "goto start". Чому не було використано звичайний "continue"? Тому-що в циклі "while" ще існує вкладенний цикл
+"for" і коли ми пишемо "continue", він починає спочатку вкладений цикл, що ніяк не вирішує проблеми.
+
+###### Вручну
+Ручне розміщення відбувається з допомогою цієї функції:
+
+```
+void userFieldPlacing(Field& Field, Settings settings) {
+    for (int i = 0; i < 10; i++) {
+        shipPlace(Field, Field.ships[i], settings);
+    }
+}
+```
+В неї ми передаємо посилання на поле і налаштування. Налаштування потрібні щоб розмітка мала такий колір, який задав користувач. 
+Потім 10 раз викликаємо наступну функцію:
+```
+void shipPlace(Field& Field, int shipSize, Settings settings) {
+    int i, x{ 0 }, y{ 0 }, key;
+    bool vertical{ true }, insertedPossible{ true };
+    start: while (true) {
+        fieldPrint(Field, x, y, Y_ALL, false, X_PLAYER_PLACE, settings.color);
+        key = _getch();
+        if (key == ENTER) {
+            for (i = 0; i < shipSize; i++) {
+                if (vertical) {
+                    if (!shipAround(Field, y + i, x)) goto start;
+                }
+                else {
+                    if (!shipAround(Field, y, x + i)) goto start;
+                }
+            }
+            enterVerifyType(Field, y, x, shipSize, vertical);
+            fieldAroundInsert(Field, y, x, AROUND);
+            break;
+        }
+        changeTypePosition(Field, shipSize, vertical, x, y, EMPTY);
+        moveShip(vertical, x, y, shipSize, key);
+        changeTypePosition(Field, shipSize, vertical, x, y, SHIP_PLACE);
+    }
+}
+```
+Думаю пояснювати що й чому приймає ця функція не має сенсу, але поясню те, як вона працює.
+Спочатку ми малюємо поле з допомогою функції "fieldPrint()", потім користувач натискає будь-яку клавішу. При натисканні cтрілок, 
+ми прибираємо корабель, визначаємо нові координати та вже на нових координатах, записуємо корабель як звичайний "cell.type". 
+Якщо користувач натискає "Enter", тим самим даючи поняти що він визначився з місцем розташування корабля, то ми перевіряємо чи не є поряд з цим
+кораблем ще одного корабля, записуємо цей корабель вже у "cell.verifyType" і припиняємо виконання циклу.
