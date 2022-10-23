@@ -823,3 +823,99 @@ void StatisticMenu(const int x, const int y, int menuSize, User user, Settings s
 і налаштування, щоб вивести з такими параметрами, з якими це бажає зробити користувач.
 
 -----------
+
+---------------
+### Збереження та вивантаження гри
+Інколи буває таке, що ти не встигаєш дограти гру, або по якимось інакшим причинам, тобі потрібно зберігтись, щоб потім 
+знову продовжити грати. Для цього потрібно створити можливість зберігати гру
+
+--------------
+
+###### Збереження
+
+Як зазначалось вище, щоб зберегти гру, потрібно нажати "Escape". Після цього, запускається
+функція "SaveUserGame":
+```asm
+void saveUserGame(const User& user, Field Field1, Field Field2) {
+    int i, j;
+    ofstream file(user.login + "Game" + ".txt");
+    for (i = 0; i < MAP_SIZE; i++) {
+        for (j = 0; j < MAP_SIZE; j++) {
+            file << Field1.cells[i][j].verifyType << " ";
+        }
+        file << endl;
+    }
+    file << endl;
+    for (i = 0; i < MAP_SIZE; i++) {
+        for (j = 0; j < MAP_SIZE; j++) {
+            file << Field2.cells[i][j].verifyType << " ";
+        }
+        file << endl;
+    }
+    file << endl;
+    for (i = 0; i < MAP_SIZE; i++) {
+        file << Field1.ships[i] << " ";
+    }
+    file << endl;
+    for (i = 0; i < MAP_SIZE; i++) {
+        file << Field2.ships[i] << " ";
+    }
+    file.close();
+}
+```
+>Взято з [Accounts.cpp](FinalProject/Accounts.cpp)
+
+Ця функція записує поле ігрока та поле бота, а також те, скільки залишилось у них палуб. Зберігає це все у файл
+"@username@Game.txt"
+
+------------
+
+###### Вивантаження
+
+Щоб вивантажити та продовжити гру, потрібно в головному мені натиснути "Продовжити гру".
+Після цього запускається функція "resumeGame":
+```asm
+void resumeGame(Settings settings, User user) {
+    if (!gameExists(user)) return;
+    Field Field1, Field2; 
+    loadUserGame(user, Field1, Field2);
+    play(Field1, Field2, settings, user);
+}
+```
+>Взято з [Controller.cpp](FinalProject/Controller.cpp)
+Вона перевіряє чи існує взагалі файл збереження і якщо так, то запускає функцію "loadUserGame":
+```asm
+void loadUserGame(const User& user, Field& Field1, Field& Field2) {
+    string trash;
+    int i, j;
+    ifstream file(user.login + "Game" + ".txt");
+    for (i = 0; i < MAP_SIZE; i++) {
+        for (j = 0; j < MAP_SIZE; j++) {
+            file >> Field1.cells[i][j].verifyType;
+        }
+        getline(file, trash);
+    }
+    getline(file, trash);
+    for (i = 0; i < MAP_SIZE; i++) {
+        for (j = 0; j < MAP_SIZE; j++) {
+            file >> Field2.cells[i][j].verifyType;
+        }
+        getline(file, trash);
+    }
+    getline(file, trash);
+    for (i = 0; i < MAP_SIZE; i++) {
+        file >> Field1.ships[i];
+    }
+    getline(file, trash);
+    for (i = 0; i < MAP_SIZE; i++) {
+        file >> Field2.ships[i];
+    }
+    file.close();
+}
+```
+>Взято з [Accounts.cpp](FinalProject/Accounts.cpp)
+
+Вона записує у ці два поля данні бота та користувача. Єдине що потрібно підмітити, тут використовуєтья
+"string trash" для того, щоб з допомогою "getline" переходити на наступну строку у файлі.
+
+-----------
