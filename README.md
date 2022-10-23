@@ -61,7 +61,7 @@ struct Cell {
     int verifyType = 0;   // Незмінна клітинка
 };
 ```
-> Код взято з [Header.h](FinalProject/Header.h)
+> _Код взято з [Header.h](FinalProject/Header.h)_
 
 int ships[10]{ 4,3,3,2,2,2,1,1,1,1 } - Розмір масиву це кількість кораблів. Число, це кількість палуб корабля.
 
@@ -76,7 +76,7 @@ enum Cells {
     AROUND_DESTROY = 4, SHIP = 5,
 };
 ```
-> Код взято з [Header.h](FinalProject/Header.h)
+> _Код взято з [Header.h](FinalProject/Header.h)_
 
 
 І ось після того, як ми створили структуру поля, визначили за що відповідає кожна клітинка, настав час створити функцію,
@@ -134,7 +134,7 @@ void fieldPrint(Field& Field, const int xMove, const int yMove, int y, bool isBo
     }
 }
 ```
-> Код взято з [Field.cpp](FinalProject/Field.cpp)
+> _Код взято з [Field.cpp](FinalProject/Field.cpp)_
 
 Функція приймає такі аргументи: Поле, координати х і у де знаходиться користувач при розставленні (щоб позначити його), чи це бот (щоб не виводити кораблі й обвідку бота), де розміщати поле в консолі та колір розмітки. Працює вона ніби "накладанням". Спочатку перевіряються ті клітинки, яки мають більший пріоритет,
 потім ті що менший. Умовно це можна уявити собі так "Приціл > Зламана палуба > Промах > Корабель при розставленні > 
@@ -157,7 +157,7 @@ enum Positions {
     X_WIN = 25,
 };
 ```
-> Код взято з [Header.h](FinalProject/Header.h)
+> _Код взято з [Header.h](FinalProject/Header.h)_
 
 Думаю по назвах зрозуміло що за що відповідає.
 
@@ -177,7 +177,7 @@ void autoFieldPlacing(Field& Field) {
     }
 }
 ```
-> Код взято з [Field.cpp](FinalProject/Field.cpp)
+> _Код взято з [Field.cpp](FinalProject/Field.cpp)_
 
 В неї ми передаємо посилання на поле та 10 раз викликаємо наступну функцію:
 ```asm
@@ -207,7 +207,7 @@ void autoShipPlacing(Field& Field, const int shipSize) {
     }
 }
 ```
-> Код взято з [Field.cpp](FinalProject/Field.cpp)
+> _Код взято з [Field.cpp](FinalProject/Field.cpp)_
 
 Вона своєю чергою теж приймає посилання на поле і також розмір корабля, який потрібно розмістити.
 Потім запускається цикл, який виконується до того моменту, поки корабель не буде поставлено.
@@ -228,7 +228,7 @@ void userFieldPlacing(Field& Field, Settings settings) {
     }
 }
 ```
-> Код взято з [Field.cpp](FinalProject/Field.cpp)
+> _Код взято з [Field.cpp](FinalProject/Field.cpp)_
 
 В неї ми передаємо посилання на поле і налаштування. Налаштування потрібні, щоб розмітка мала такий колір, який задав користувач. 
 Потім 10 раз викликаємо наступну функцію:
@@ -258,7 +258,7 @@ void shipPlace(Field& Field, int shipSize, Settings settings) {
     }
 }
 ```
-> Код взято з [Field.cpp](FinalProject/Field.cpp)
+> _Код взято з [Field.cpp](FinalProject/Field.cpp)_
 
 Я вище вже описував подібну функцію, тому відразу перейдемо до того, як вона працює.
 Спочатку ми малюємо поле з допомогою функції "fieldPrint()", потім користувач натискає будь-яку клавішу. При натисканні cтрілок, 
@@ -310,7 +310,7 @@ void play(Field& playerField, Field& enemyField, Settings settings, User& user) 
     winAction(playerField, enemyField, settings, name);
 }
 ```
-> Код взято з [Attack.cpp](FinalProject/Attack.cpp)
+> _Код взято з [Attack.cpp](FinalProject/Attack.cpp)_
 
 Приймається два поля (користувача й бота), налаштування й обліковий запис користувача.
 Потім в залежності від "step", обирається хто ходить. Якщо true - користувач.
@@ -373,7 +373,7 @@ bool playerAttack(Field& botField, int& action, Settings settings, Field& player
     }
 }
 ```
-> Код взято з [Attack.cpp](FinalProject/Attack.cpp)
+> _Код взято з [Attack.cpp](FinalProject/Attack.cpp)_
 
 Ця функція повертає те, чи влучив користувач. У функції цикл працює до того моменту, поки не буде повернено якесь значення.
 Код дуже схожий до розставлення корабля, але відрізняється тим, що тут замість корабля, ми переміщуємо приціл і при натисканні
@@ -410,7 +410,7 @@ void difficultyChoiceAttack(Settings settings, Field& Field, AI& Ai, int& action
     }
 }
 ```
-> Код взято з [Attack.cpp](FinalProject/Attack.cpp)
+> _Код взято з [Attack.cpp](FinalProject/Attack.cpp)_
 
 Функція приймає налаштування, поле, штучний інтелект, дію яка буде відображенна після вистрілу та те, хто буде ходити наступний.
 
@@ -445,7 +445,7 @@ bool botAttack(Field& Field, int& action, int& xReturn, int& yReturn) {
     }
 }
 ```
-> Код взято з [Attack.cpp](FinalProject/Attack.cpp)
+> _Код взято з [Attack.cpp](FinalProject/Attack.cpp)_
 
 Стріляє бот абсолютно випадково, але якщо потрапляє в уже зруйнований корабель, або туди, куди він вже стріляв, тоді координати
 обираються спочатку і ще раз відбувається вистріл.
@@ -487,7 +487,7 @@ int startMenu(const int x, const int y, int menuSize, int arrSize, string* MenuP
     }
 }
 ```
-> Код взято з [Menu.cpp](FinalProject/Menu.cpp)
+> _Код взято з [Menu.cpp](FinalProject/Menu.cpp)_
 
 Вона приймає x та y розміщення, розмір меню, розмір масиву з кількістю пунктів, самі пункти меню, назву меню та налаштування. Працює поки
 не буде повернено якесь зі значень. В цілому код досить простий і зрозумілий. Якщо людина намагається вибратись за межі
@@ -508,7 +508,7 @@ char changeChar(Settings settings) {
     return graphUnit;
 }
 ```
-> Код взято з [Menu.cpp](FinalProject/Menu.cpp)
+> _Код взято з [Menu.cpp](FinalProject/Menu.cpp)_
 
 ```asm
 int changeColor(Settings settings) {
@@ -525,7 +525,7 @@ int changeColor(Settings settings) {
     return choice;
 }
 ```
-> Код взято з [Menu.cpp](FinalProject/Menu.cpp)
+> _Код взято з [Menu.cpp](FinalProject/Menu.cpp)_
 
 Людина обирає бажаний параметр і змінює його так, як вона того захоче. Функції написано досить зрозуміло, тому нема сенсу
 їх додатково пояснювати, краще покажу як вони працюють:<br/>![settingsChange.gif](images/settingsChange.gif)
@@ -540,7 +540,7 @@ void settingsToDefault(User& user) {
     user.difficulty = false;
 }
 ```
-> Код взято з [Accounts.cpp](FinalProject/Accounts.cpp)
+> _Код взято з [Accounts.cpp](FinalProject/Accounts.cpp)_
 
 
 
@@ -566,7 +566,7 @@ struct User {
     int percentOfWin;
 };
 ```
-> Код взято з [Header.h](FinalProject/Header.h)
+> _Код взято з [Header.h](FinalProject/Header.h)_
 
 
 Вона містить в собі:
@@ -653,7 +653,7 @@ User registerNewUser() {
     return user;
 }
 ```
-> Код взято з [Accounts.cpp](FinalProject/Accounts.cpp)
+> _Код взято з [Accounts.cpp](FinalProject/Accounts.cpp)_
 
 Спочатку вона створює користувача та задає йому стандартні параметри. Далі виводить поле для вводу даних і після цього
 перевіряє їх на правильність. Якщо логін і пароль відповідають таким вимогам як: унікальність і містять більш як 4 символи
@@ -712,7 +712,7 @@ User loginUser() {
     return user;
 }
 ```
-> Код взято з [Accounts.cpp](FinalProject/Accounts.cpp)
+> _Код взято з [Accounts.cpp](FinalProject/Accounts.cpp)_
 
 По суті просто перевіряє правильність введених даних і повертає користувача, якщо данні є валідними.
 
@@ -733,7 +733,7 @@ struct Settings {
     ConsoleColor color;
 };
 ```
-> Код взято з [Header.h](FinalProject/Header.h)
+> _Код взято з [Header.h](FinalProject/Header.h)_
 
 
 Досить простенька, містить в собі:
@@ -763,7 +763,7 @@ begin:
     return graphUnit;
 }
 ```
-> Код взято з [Field.cpp](FinalProject/Field.cpp)
+> _Код взято з [Field.cpp](FinalProject/Field.cpp)_
 
 В цій відбувається зміна складності бота:
 ```asm
@@ -772,7 +772,7 @@ bool changeDifficulty(User user, Settings settings) {
     return startMenu(X_MENU * 2, Y_ALL, 9, 2, menuParagraph, "Складність", settings);
 }
 ```
-> Код взято з [Controller.cpp](FinalProject/Controller.cpp)
+> _Код взято з [Controller.cpp](FinalProject/Controller.cpp)_
 
 В цій відбувається зміна кольору меню:
 ```asm
@@ -791,7 +791,7 @@ int changeColor(Settings settings) {
     return choice;
 }
 ```
-> Код взято з [Field.cpp](FinalProject/Field.cpp)
+> _Код взято з [Field.cpp](FinalProject/Field.cpp)_
 
 ---------------
 ### Статистика
@@ -828,7 +828,7 @@ void StatisticMenu(const int x, const int y, int menuSize, User user, Settings s
     _getch();
 }
 ```
-> Код взято з [Menu.cpp](FinalProject/Menu.cpp)
+> _Код взято з [Menu.cpp](FinalProject/Menu.cpp)_
 
 Вона приймає звичайні аргументи меню. Де розмістити (х, у), розмір меню, користувача з файлу якого будуть діставати статистику
 і налаштування, щоб вивести з такими параметрами, з якими це бажає зробити користувач.
@@ -873,7 +873,7 @@ void saveUserGame(const User& user, Field Field1, Field Field2) {
     file.close();
 }
 ```
->Взято з [Accounts.cpp](FinalProject/Accounts.cpp)
+> _Код взято з [Accounts.cpp](FinalProject/Accounts.cpp)_
 
 Ця функція записує поле користувача та поле бота, а також те, скільки залишилось у них палуб. Зберігає це все у файл
 "@username@Game.txt"
@@ -892,7 +892,7 @@ void resumeGame(Settings settings, User user) {
     play(Field1, Field2, settings, user);
 }
 ```
->Взято з [Controller.cpp](FinalProject/Controller.cpp)
+> _Код взято з [Controller.cpp](FinalProject/Controller.cpp)_
 
 Вона перевіряє чи існує взагалі файл збереження і якщо так, то запускає функцію "loadUserGame":
 ```asm
@@ -924,7 +924,7 @@ void loadUserGame(const User& user, Field& Field1, Field& Field2) {
     file.close();
 }
 ```
->Взято з [Accounts.cpp](FinalProject/Accounts.cpp)
+> _Код взято з [Accounts.cpp](FinalProject/Accounts.cpp)_
 
 Вона записує у ці два поля данні бота та користувача. Єдине що потрібно підмітити, тут використовується
 "string trash" для того, щоб з допомогою "getline" переходити на наступну строку у файлі.
@@ -952,7 +952,7 @@ struct AI {
     int y{ -1 };      // Наступний постріл по y
 };
 ```
-> Код взято з [Header.h](FinalProject/Header.h)
+> _Код взято з [Header.h](FinalProject/Header.h)_
 
 Вона містить перше попадання по x та по y (hintX, hintY відповідно), зі скількох палуб складається корабель в який
 він попав, напрям наступного пострілу та координати наступного пострілу.
@@ -973,7 +973,7 @@ enum Directions {
     RIGHT = 3,
 };
 ```
-> Код взято з [Header.h](FinalProject/Header.h)
+> _Код взято з [Header.h](FinalProject/Header.h)_
 
 ----------
 
@@ -1007,7 +1007,7 @@ bool AIAttack(Field& Field, AI& Ai, int& action) {
 	}
 }
 ```
-> Код взято з [AI.cpp](FinalProject/AI.cpp)
+> _Код взято з [AI.cpp](FinalProject/AI.cpp)_
 
 Функція повертає те, потрапив бот у палубу чи ні.</br>
 Якщо корабель зруйновано (Ai.decksCount < 0) тоді постріл здійснюється наугад, якщо ні, тоді викликається наступна функція "AIHint":
@@ -1054,7 +1054,7 @@ bool AIHint(Field& Field, AI& Ai) {
 	}
 }
 ```
-> Код взято з [AI.cpp](FinalProject/AI.cpp)
+> _Код взято з [AI.cpp](FinalProject/AI.cpp)_
 
 В ній обирається напрям пострілу та викликається функція "AIDefinition", щоб визначити, чи був потрапив корабель кудись.
 Якщо ні, тоді напрям змінюється на протилежний. Але якщо доходить до "RIGHT", тоді буде наступним напрямом буде обрано не "LEFT",
@@ -1094,7 +1094,7 @@ void botPlay(Field& botField1, Field& botField2, Settings settings) {
     winAction(botField1, botField2, settings, name);
 }
 ```
-> Код взято з [Attack.cpp](FinalProject/Attack.cpp)
+> _Код взято з [Attack.cpp](FinalProject/Attack.cpp)_
 
 Запускається цикл який працює до моменту, поки у когось з ботів не буде кораблів і в кінці, в залежності від того який з ботів
 переміг, виводиться повідомлення про перемогу.
