@@ -23,7 +23,7 @@
 * [Поле та можливість його зміни](#Реалізація-ігрового-поля)
 * [Ручна розстановка](#Вручну)
 * [Автоматична розстановка](#Автоматично)
-* Два режима складності
+* [Штучний інтеллект](#Штучний-інтеллект)
 * [Графічний інтерфейс](#Реалізація-графічного-інтерфейсу)
 * [Система акаунтів](#Система-акаунтів)
 * [Налаштування до кожного з аккаунтів](#Налаштування)
@@ -917,5 +917,136 @@ void loadUserGame(const User& user, Field& Field1, Field& Field2) {
 
 Вона записує у ці два поля данні бота та користувача. Єдине що потрібно підмітити, тут використовуєтья
 "string trash" для того, щоб з допомогою "getline" переходити на наступну строку у файлі.
+
+-----------
+
+### Штучний інтеллект
+Грати зі звичайним ботом, який просто стріляє наугад неінтересно і досить легко. Для цього було створено штучний
+інтеллект, який має деяку логіку.
+
+----------
+
+###### Структура
+
+Штучний інтеллект має містити багато інформації, яку можна обробити та зрозуміти, куди бити далі.
+Для цього було створено структуру "AI":
+
+```asm
+struct AI {
+    int hintX{ -1 };  // Перше попадання по X
+    int hintY{ -1 };  // Перше попадання по Y
+    int decksCount{ 0 };
+    int dir{ 0 };     // Напрямок наступного пострілу
+    int x{ -1 };      // Наступний постріл по x
+    int y{ -1 };      // Наступний постріл по y
+};
+```
+> Код взято з [Header.h](FinalProject/Header.h)
+
+Вона містить перше попадання по x та по y (hintX, hintY відповідно), зі скількох палуб складається корабель в який
+він попав, напрям наступного пострілу та координати наступного пострілу.
+
+----------
+
+###### Алгоритм
+
+Алгоритм в цілому досить простий. Спочатку бот стріляє наугад, якщо попадає, тоді він починає добивати корабель.
+Спочатку двигається вниз, потім вверх, потім вліво і кінець кінцем управо. Для того щоб легше розуміти куди буде направлений
+наступний постріл корабля, я створий enum "Directions":
+
+```asm
+enum Directions {
+    DOWN = 0, 
+    LEFT = 1, 
+    UP = 2, 
+    RIGHT = 3,
+};
+```
+> Код взято з [Header.h](FinalProject/Header.h)
+
+----------
+
+###### Реалізація алгоритму
+Основною функцією є "AIAttack". Вона обирає як буде стріляти бот, наугад чи з використанням алгоритму добивання.
+
+```asm
+bool AIAttack(Field& Field, AI& Ai, int& action) {
+	if (Ai.decksCount < 1) {
+		while (true) {
+			Ai.hintX = rand() % MAP_SIZE;
+			Ai.hintY = rand() % MAP_SIZE;
+			if (Field.cells[Ai.hintY][Ai.hintX].verifyType == MISS || Field.cells[Ai.hintY][Ai.hintX].verifyType == DESTROY_SHIP || Field.cells[Ai.hintY][Ai.hintX].verifyType == AROUND_DESTROY) continue;
+			if (botHint(Field, Ai.hintY, Ai.hintX)) {
+				Ai.x = Ai.hintX;
+				Ai.y = Ai.hintY;
+				Ai.decksCount = Field.ships[Field.cells[Ai.y][Ai.x].verifyType - SHIP];
+				Ai.decksCount--;
+				Field.ships[Field.cells[Ai.y][Ai.x].verifyType - SHIP]--;
+				Field.cells[Ai.y][Ai.x].verifyType = DESTROY_SHIP;
+				return true;
+			}
+			action = 1;
+			Ai.hintX = -1;
+			Ai.hintY = -1;
+			return false;
+		}
+	}
+	else {
+        return AIHint(Field, Ai)
+	}
+}
+```
+> Код взято з [AI.cpp](FinalProject/AI.cpp)
+
+Функція повертає те, потрапив бот у палубу чи ні.</br>
+Якщо корабель зруйновано (Ai.decksCount < 0) тоді постріл здійснюється наугад, якщо ні, тоді викликається наступна функція "AIHint":
+```asm
+bool AIHint(Field& Field, AI& Ai) {
+	switch (Ai.dir) {
+	case DOWN: 
+		if (Ai.y + 1 > MAP_SIZE){
+			Ai.dir = 2;
+			Ai.x = Ai.hintX;
+			Ai.y = Ai.hintY;
+			return false;
+		}
+		Ai.y++;
+		return AIDefinition(Field, Ai, UP);
+	case LEFT:
+		if (Ai.x - 1 < 0) {
+			Ai.dir = 3;
+			Ai.x = Ai.hintX;
+			Ai.y = Ai.hintY;
+			return false;
+		}
+		Ai.x--;
+		return AIDefinition(Field, Ai, RIGHT);
+	case UP:
+		if (Ai.y - 1 < 0) {
+			Ai.dir = 1;
+			Ai.x = Ai.hintX;
+			Ai.y = Ai.hintY;
+			return false;
+		}
+		Ai.y--;
+		return AIDefinition(Field, Ai, LEFT);
+	case RIGHT:
+		if (Ai.x + 1 > MAP_SIZE) {
+			Ai.dir = 0;
+			Ai.x = Ai.hintX;
+			Ai.y = Ai.hintY;
+			return false;
+		}
+		Ai.x++;
+		return AIDefinition(Field, Ai, DOWN);
+	default: break;
+	}
+}
+```
+> Код взято з [AI.cpp](FinalProject/AI.cpp)
+
+В ній обирається напрям пострілу та викликається функція "AIDefinition", щоб визначити, чи був потрапив корабель кудись.
+Якщо ні, тоді напрям змінюється на протилежний. Але якщо доходить до "RIGHT", тоді буде наступним напрямом буде обрано не "LEFT",
+а "DOWN" щоб почати з початку.
 
 -----------
