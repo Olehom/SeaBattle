@@ -236,6 +236,45 @@ void shipPlace(Field& Field, int shipSize, Settings settings) {
 
 Руйнування кораблів поділяється на два типа. Руйнування користувачем та ботом. 
 
+Сама функція гри виглядає так:
+```asm
+void play(Field& playerField, Field& enemyField, Settings settings, User& user) {
+    int i, j;
+    AI Ai;
+    string name;
+    system("cls");
+    int action;
+    bool step{ true }, winner;
+    while (!isShips(playerField.ships) && !isShips(enemyField.ships)) {
+        fieldPrint(playerField, -1, -1, Y_ALL, false, X_PLAYER_FIGHT, settings.color);
+        fieldPrint(enemyField, -1, -1, Y_ALL, true, X_BOT_FIGHT, settings.color);
+        if (step) {
+            step = !step;
+            if (playerAttack(enemyField, action, settings, playerField, user)) {
+                step = !step;
+                user.shipsDestroyer++;
+            }
+        }
+        else {
+            difficultyChoiceAttack(settings, playerField, Ai, action, step);
+        }
+        actionDescription(X_MESSAGES * 2, Y_MESSAGES, action, settings.color);
+    }
+    if (isShips(playerField.ships)) name = "Переміг бот";
+    else {
+        name = "Ви перемогли";
+        user.wins++;
+    }
+    user.games++;
+    winAction(playerField, enemyField, settings, name);
+}
+```
+Приймається два поля (користувача й бота), налаштування і акаунт користувача.
+Потім взалежності від "step", обирається хто ходить. Якщо true - користувач.
+Якщо false - бот.
+step - змінюється кожен хід, але якщо кимось було влучено в корабель, то step
+не змінюється і продовжує ходити той, хто влучив.
+
 ###### Руйнування користувачем
 
 У функції руйнування корабля користувачем, ми передаємо поле бота, дію яка буде відображена після вистрілу, налаштування 
@@ -298,6 +337,66 @@ bool playerAttack(Field& botField, int& action, Settings settings, Field& player
 
 Ось який це має вигляд:</br>![player_destroying.gif](images/player_destroying.gif)
 
+###### Руйнування ботом
+
+Існують дві атаки у бота. Перша - рандомно, друга - з використанням алгоритму, який при попаданні добиває корабель. 
+Вибір атаки виконує ця функція:
+
+```asm
+void difficultyChoiceAttack(Settings settings, Field& Field, AI& Ai, int& action, bool& step) {
+    int x, y;
+    if (settings.difficulty) {
+        step = !step;
+        if (AIAttack(Field, Ai, action)) {
+            if (Ai.decksCount == 0) fieldAroundInsert(Field, Ai.hintY, Ai.hintX, AROUND_DESTROY);
+            step = !step;
+        }
+    }
+    else {
+        step = !step;
+        if (botAttack(Field, action,x, y)) {
+            if (isShips(Field.ships)) fieldAroundInsert(Field, x, y, AROUND_DESTROY);
+            step = !step;
+        }
+    }
+}
+```
+
+Якщо "settings.difficulty" дорівнює "false" - тоді бот завжди б'є рандомно. Якщо
+"true" - тоді бот після попадання по кораблю, добиває його.
+
+Функція "botAttack" приймає поле, дію яка буде відображатись після ходу та x, y на випадок, якщо він зруйнує корабель.
+```asm
+bool botAttack(Field& Field, int& action, int& xReturn, int& yReturn) {
+    int x, y;
+    while (true) {
+        x = rand() % MAP_SIZE;
+        y = rand() % MAP_SIZE;
+        if (Field.cells[y][x].verifyType == MISS || Field.cells[y][x].verifyType == DESTROY_SHIP) continue;
+
+        if (botHint(Field, y, x)) {
+            Field.ships[Field.cells[y][x].verifyType - SHIP]--;
+            if (Field.ships[Field.cells[y][x].verifyType - SHIP] == 0) {
+                fieldAroundInsert(Field, y, x, AROUND_DESTROY);
+                Field.cells[y][x].verifyType = DESTROY_SHIP;
+                xReturn = x;
+                yReturn = y;
+                return true;
+            }
+            Field.cells[y][x].verifyType = DESTROY_SHIP;
+            return true;
+        }
+        else {
+            action = BOT_MISS;
+            return false;
+        }
+    }
+}
+```
+Стріляє бот абсолютно рандомно, але якщо потрапляє в уже зруйнований корабель, або туди, куди він вже стріляв, тоді координати
+обираються спочатку.
+
+Щодо штучного інтеллекту, про нього поговоримо згодом.
 ### Реалізація графічного інтерфейсу
 
 В проекті реалізовано більше 5 різних меню (Меню логіну, меню налаштувань, головне меню, тощо.) Тому я вирішив написати для
@@ -380,3 +479,6 @@ void settingsToDefault(User& user) {
     user.difficulty = false;
 }
 ```
+
+Також там присутній параметр "difficulty". Він змінює складність бота. Якщо "false" - тоді бот завжди б'є рандомно. Якщо
+"true" - тоді бот після попадання по кораблю, добиває його.
