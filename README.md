@@ -226,3 +226,72 @@ void shipPlace(Field& Field, int shipSize, Settings settings) {
 ми прибираємо корабель, визначаємо нові координати та вже на нових координатах, записуємо корабель як звичайний "cell.type". 
 Якщо користувач натискає "Enter", тим самим даючи поняти що він визначився з місцем розташування корабля, то ми перевіряємо чи не є поряд з цим
 кораблем ще одного корабля, записуємо цей корабель вже у "cell.verifyType" і припиняємо виконання циклу.
+
+Ось який це має вигляд:
+
+![placing.gif](images/placing.gif)
+
+#### Руйнування кораблів
+
+Руйнування кораблів поділяється на два типа. Руйнування користувачем та ботом. 
+
+###### Руйнування користувачем
+
+У функції руйнування корабля користувачем, ми передаємо поле бота, дію яка буде відображена після вистрілу, налаштування 
+для кольору розмітки, поле користувача і акаунт користувача щоб в разі чого, при натисканні ESC гра зберігалась й припинялась.
+```
+bool playerAttack(Field& botField, int& action, Settings settings, Field& playerField, User user) {
+    int dir{0}, key, x{0}, y{0}, shipSize{0};
+    while (true) {
+        fieldPrint(botField, -1, -1, Y_ALL, true, X_BOT_FIGHT, settings.color);
+        key = _getch();
+        botField.cells[y][x].type = EMPTY;
+        switch (key) {
+        case ENTER:
+            if (botField.cells[y][x].verifyType == MISS || botField.cells[y][x].verifyType == DESTROY_SHIP) continue;
+
+            if (botField.cells[y][x].verifyType >= SHIP) {
+                botField.ships[botField.cells[y][x].verifyType - SHIP]--;
+                if (botField.ships[botField.cells[y][x].verifyType - SHIP] == 0) {
+                    fieldAroundInsert(botField, y, x, AROUND_DESTROY);
+                    action = BOT_SHIP_DESTROY;
+                }
+                else action = BOT_DECK_DESTROY;
+                botField.cells[y][x].verifyType = DESTROY_SHIP;
+                return true;
+            }
+            else {
+                botField.cells[y][x].verifyType = MISS;
+                action = PLAYER_MISS;
+                return false;
+            }
+            break;
+        case UP_ARROW: 
+            if(y - 1 != -1) y--;
+            break;
+        case DOWN_ARROW:
+            if (y + 1 != MAP_SIZE) y++;
+            break;
+        case LEFT_ARROW: 
+            if (x - 1 != -1) x--;
+            break;
+        case RIGHT_ARROW:
+            if (x + 1 != MAP_SIZE) x++;
+            break;
+        case ESC:
+            saveUserGame(user, playerField, botField);
+            exit(0);
+            break;
+        default: break;
+        }
+        botField.cells[y][x].type = AIM;
+    }
+}
+```
+Ця функція повертає те, чи влучив користувач. У функції цикл працює до того моменту, поки не буде повернено якесь значення.
+Код дуже схожий до розставлення корабля, але відрізняється тим, що тут замість корабля, ми переміщуємо приціл і при натисканні
+відбувається вистріл, який вже визначає, чи потрапила людина. Якщо так, то від корабля віднімається одна палуба, сама палуба стає зруйнованою,
+перевірається чи взагалі є ще живі палуби у корабля, якщо ні, тоді він обводиться і на екран виведеться повідомлення про те, 
+що корабель зруйновано, або те, що зруйновано одну палубу, якщо ще є живі палуби. В разі якщо людина промахнулась, тоді клітинка
+позначається як "промах" і по ній більше неможливо вистрілити, також виводиться повідомлення про промах.
+Ось який це має вигляд:</br>![player_destroying.gif](images/player_destroying.gif)
