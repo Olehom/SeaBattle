@@ -144,7 +144,7 @@ void fieldPrint(Field& Field, const int xMove, const int yMove, int y, bool isBo
 ![field.png](images/field.png)
 
 Для зручності, я додатково створив enum "Positions", який визначає типові координати для розміщення певних елементів:
-```
+```asm
 enum Positions {
     Y_ALL = 8,
     Y_WIN = 12,
@@ -171,7 +171,7 @@ enum Positions {
 ###### Автоматично
 Автоматичне розміщення відбувається з допомогою цієї функції:
 
-```
+```asm
 void autoFieldPlacing(Field& Field) {
     for (int i = 0; i < 10; i++) {
         autoShipPlacing(Field, Field.ships[i]);
@@ -181,7 +181,7 @@ void autoFieldPlacing(Field& Field) {
 > Код взято з [Field.cpp](FinalProject/Field.cpp)
 
 В неї ми передаємо посилання на поле та 10 раз викликаємо наступну функцію:
-```
+```asm
 void autoShipPlacing(Field& Field, const int shipSize) {
     int i, x{-1}, y{-1};
     bool vertical{ true }, insertedPossible;
@@ -222,7 +222,7 @@ void autoShipPlacing(Field& Field, const int shipSize) {
 ###### Вручну
 Ручне розміщення відбувається з допомогою цієї функції:
 
-```
+```asm
 void userFieldPlacing(Field& Field, Settings settings) {
     for (int i = 0; i < 10; i++) {
         shipPlace(Field, Field.ships[i], settings);
@@ -233,7 +233,7 @@ void userFieldPlacing(Field& Field, Settings settings) {
 
 В неї ми передаємо посилання на поле і налаштування. Налаштування потрібні щоб розмітка мала такий колір, який задав користувач. 
 Потім 10 раз викликаємо наступну функцію:
-```
+```asm
 void shipPlace(Field& Field, int shipSize, Settings settings) {
     int i, x{ 0 }, y{ 0 }, key;
     bool vertical{ true }, insertedPossible{ true };
@@ -323,7 +323,7 @@ step - змінюється кожен хід, але якщо кимось бу
 
 У функції руйнування корабля користувачем, ми передаємо поле бота, дію яка буде відображена після вистрілу, налаштування 
 для кольору розмітки, поле користувача і акаунт користувача щоб в разі чого, при натисканні ESC гра зберігалась й припинялась.
-```
+```asm
 bool playerAttack(Field& botField, int& action, Settings settings, Field& playerField, User user) {
     int dir{0}, key, x{0}, y{0}, shipSize{0};
     while (true) {
@@ -449,7 +449,7 @@ bool botAttack(Field& Field, int& action, int& xReturn, int& yReturn) {
 
 В проекті реалізовано більше 5 різних меню (Меню логіну, меню налаштувань, головне меню, тощо.) Тому я вирішив написати для
 них одну функцію.
-```
+```asm
 int startMenu(const int x, const int y, int menuSize, int arrSize, string* MenuParagraph, string Name, Settings settings) {
     system("cls");
     int key, activeOption{ 0 };
@@ -498,7 +498,7 @@ char changeChar(Settings settings) {
     return graphUnit;
 }
 ```
-```
+```asm
 int changeColor(Settings settings) {
     begin:
     int choice;
