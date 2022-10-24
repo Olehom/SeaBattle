@@ -1258,7 +1258,7 @@ ________________________________
 Якщо вам захотілось скинути налаштування до стандартних, просто оберіть пункт
 "Скинути"
 
-![settingsReset.png](images/settingsReset.png)
+![settingsMenuReset.png](images/settingsMenuReset.png)
 
 Після цього ваші налаштування будуть скинуті
 
