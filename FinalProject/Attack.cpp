@@ -39,7 +39,6 @@ bool botHint(Field& Field, int y, int x) {
 }
 
 bool botAttack(Field& Field, int& action, int& xReturn, int& yReturn) {
-    
     int x, y;
     while (true) {
         x = rand() % MAP_SIZE;
@@ -66,7 +65,7 @@ bool botAttack(Field& Field, int& action, int& xReturn, int& yReturn) {
 }
 
 bool playerAttack(Field& botField, int& action, Settings settings, Field& playerField, User user) {
-    int dir{0}, key, x{0}, y{0}, dx{0}, dy{0}, shipSize{0};
+    int dir{0}, key, x{0}, y{0}, shipSize{0};
     while (true) {
         fieldPrint(botField, -1, -1, Y_ALL, true, X_BOT_FIGHT, settings.color);
         key = _getch();
@@ -114,8 +113,7 @@ bool playerAttack(Field& botField, int& action, Settings settings, Field& player
 }
 
 bool isShips(int* ships) {
-    int i;
-    for (i = 0; i < MAP_SIZE; i++) {
+    for (int i = 0; i < MAP_SIZE; i++) {
         if (ships[i] != 0) {
             return false;
         }

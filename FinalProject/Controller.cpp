@@ -29,8 +29,8 @@ void botPlay(Settings& settings) {
 }
 
 void resumeGame(Settings settings, User user) {
-    Field Field1, Field2; 
     if (!gameExists(user)) return;
+    Field Field1, Field2; 
     loadUserGame(user, Field1, Field2);
     play(Field1, Field2, settings, user);
 }
@@ -41,7 +41,8 @@ bool changeDifficulty(User user, Settings settings) {
 }
 
 void Statistics(User user, Settings settings) {
-    user.percentOfWin = (user.wins * 100 / user.games);
+    if (user.games == 0) user.percentOfWin = 0;
+    else user.percentOfWin = (user.wins * 100 / user.games);
     saveUser(user);
     StatisticMenu(X_MENU * 2, Y_ALL, 13, user, settings);
 }

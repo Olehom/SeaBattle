@@ -98,12 +98,6 @@ bool AIAttack(Field& Field, AI& Ai, int& action) {
 		}
 	}
 	else {
-
-		if (AIHint(Field, Ai)) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return (AIHint(Field, Ai));
 	}
 }

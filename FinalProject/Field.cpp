@@ -42,7 +42,6 @@ void setType(Field& Field, int y, int x, int value) {
 }
 
 void fieldPrint(Field& Field, const int xMove, const int yMove, int y, bool isBot, int x, ConsoleColor color) {
-    //SetCursorPosition(x*2, y);
     string numeric = "ABCDEFGHIJ";
     int i, j;
     cout << endl;
@@ -223,9 +222,9 @@ void changeTypePosition(Field& Field, int shipSize, bool vertical, int x, int y,
 }
 
 void shipPlace(Field& Field, int shipSize, Settings settings) {
-    int i, x{ 0 }, y{ 0 }, key, xMove{0}, yMove{0}, dy{0}, dx{0};
-    bool vertical{ true }, insertedPossible{ true }, isWork{ true };
-    start: while (isWork) {
+    int i, x{ 0 }, y{ 0 }, key;
+    bool vertical{ true }, insertedPossible{ true };
+    start: while (true) {
         fieldPrint(Field, x, y, Y_ALL, false, X_PLAYER_PLACE, settings.color);
         key = _getch();
         if (key == ENTER) {
@@ -239,8 +238,7 @@ void shipPlace(Field& Field, int shipSize, Settings settings) {
             }
             enterVerifyType(Field, y, x, shipSize, vertical);
             fieldAroundInsert(Field, y, x, AROUND);
-            isWork = false;
-            continue;
+            break;
         }
         changeTypePosition(Field, shipSize, vertical, x, y, EMPTY);
         moveShip(vertical, x, y, shipSize, key);
