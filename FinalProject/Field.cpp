@@ -105,7 +105,8 @@ void CellAroundInsert(Field& Field, int y, int x, int value) {
 bool shipAround(Field& Field, int y, int x) {
     for (int i = y - 1; i <= y + 1; i++) {
         for (int j = x - 1; j <= x + 1; j++) {
-            if (Field.cells[i][j].verifyType >= SHIP) return false;
+            if (i < 0 || j < 0) continue;
+            if ((Field.cells[i][j].verifyType >= SHIP)) return false;
         }
     }
     return true;
