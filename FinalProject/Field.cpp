@@ -48,31 +48,31 @@ void fieldPrint(Field& Field, const int xMove, const int yMove, int y, bool isBo
     for (i = 0; i < MAP_SIZE; i++) {
         cout << "  ";
         for (j = 0; j < MAP_SIZE; j++) {
-            if (Field.cells[i][j].type == AIM) {             // Прицел
+            if (Field.cells[i][j].type == AIM) {                // Aim
                 SetColor(BLACK, RED_FADE);
                 SetCursorPosition((x + j) * 2, y + i);
                 cout << "><";
                 continue;
             }
-            else if (Field.cells[i][j].verifyType == DESTROY_SHIP) {  // Зруйнованана частина корабля
+            else if (Field.cells[i][j].verifyType == DESTROY_SHIP) {        // Ruined ship
                 SetColor(RED_FADE, RED_FADE);
             }
-            else if (Field.cells[i][j].verifyType == MISS) {  // Мимо
+            else if (Field.cells[i][j].verifyType == MISS) {    // Miss
                 SetColor(TEAL_FADE, TEAL_FADE);
             }
-            else if (Field.cells[i][j].type == SHIP_PLACE) {
+            else if (Field.cells[i][j].type == SHIP_PLACE) {    // Ship placing
                 SetColor(GRAY, GRAY);
             }
-            else if (Field.cells[i][j].verifyType == AROUND_DESTROY) {
+            else if (Field.cells[i][j].verifyType == AROUND_DESTROY) {      // Stroke around ship destroy
                 SetColor(TEAL_FADE, TEAL_FADE);
             }
-            else if (Field.cells[i][j].verifyType == AROUND && !isBot) {
+            else if (Field.cells[i][j].verifyType == AROUND && !isBot) {    // Stroke around
                 SetColor(BLUE, BLUE);
             }
-            else if (Field.cells[i][j].verifyType >= SHIP && !isBot) {
+            else if (Field.cells[i][j].verifyType >= SHIP && !isBot) {      // Just ship
                 SetColor(GREEN_FADE, GREEN_FADE);
             }
-            else if (Field.cells[i][j].type == EMPTY) {        // Пуста клітинка при розстановці
+            else if (Field.cells[i][j].type == EMPTY) {         // Empty cell when placing
                 SetColor(BLUE_FADE, BLUE_FADE);
             }
             SetCursorPosition((x + j) * 2, y + i);
@@ -167,7 +167,7 @@ void autoShipPlacing(Field& Field, const int shipSize) {
         }
         enterVerifyType(Field, y, x, shipSize, vertical);
         fieldAroundInsert(Field, y, x, AROUND);
-        // Інкремент щоб у кожного корабля був свій індекс
+        // An increment so that every ship have own number on field
         Field.shipCount++;
         break;
     }
@@ -182,22 +182,22 @@ void autoFieldPlacing(Field& Field) {
 void moveShip(bool& vertical, int& x, int& y, const int shipSize, const int key) {
 
     switch (key) {
-    case UP_ARROW:          // Здвиг верх
+    case UP_ARROW:          // Shift up
         if (y - 1 == -1) break;
         y--;
         break;
 
-    case DOWN_ARROW:        // Здвиг вниз
+    case DOWN_ARROW:        // Shift down
         if ((y + 1 == MAP_SIZE && !vertical) || (y + shipSize == MAP_SIZE && vertical)) break;
         y++;
         break;
 
-    case LEFT_ARROW:        // Здвиг вліво
+    case LEFT_ARROW:        // Shift left
         if (x - 1 == -1) break;
         x--;
         break;
 
-    case RIGHT_ARROW:       // Здвиг вправо
+    case RIGHT_ARROW:       // Shift right
         if ((x + shipSize == MAP_SIZE && !vertical) || (x + 1== MAP_SIZE && vertical)) break;
         x++;
         break;

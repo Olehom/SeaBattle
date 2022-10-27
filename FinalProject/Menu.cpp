@@ -42,17 +42,17 @@ void MenuPrint(const int SIZE, const int x, const int y, const char GraphUnit, s
     SetCursorPosition(x, y);
     SetColor(BLACK, BLACK);
     SetColor(Color, BLACK);
-    for (i = 0; i < SIZE; i++) {
-        SetCursorPosition(x + (i * 2) + 1, y);              // Верх
+    for (i = 0; i < SIZE; i++) {    // Border print
+        SetCursorPosition(x + (i * 2) + 1, y);              // Up
         cout << GraphUnit;
-        SetCursorPosition(x + (i * 2) + 1, y + SIZE - 1);   // Низ
+        SetCursorPosition(x + (i * 2) + 1, y + SIZE - 1);   // Down
         cout << GraphUnit;
-        SetCursorPosition(x + 1, y + i);                    // Право
+        SetCursorPosition(x + 1, y + i);                    // Right
         cout << GraphUnit;
-        SetCursorPosition(x + SIZE * 2 + 1, y + i);         // Ліво
+        SetCursorPosition(x + SIZE * 2 + 1, y + i);         // Left
         cout << GraphUnit;
     }
-    SetCursorPosition(SIZE + x - Name.size()/2 + 1, y + 1); // Місце для ніку користувача
+    SetCursorPosition(SIZE + x - Name.size()/2 + 1, y + 1); // User name placing
     cout << Name;
 }
 
@@ -78,7 +78,9 @@ int changeColor(Settings settings) {
     }
     SetCursorPosition(X_MENU * 2.4 + 1, Y_ALL + 1);
     cin >> choice;
-    if (choice < 1 || choice > 16) goto begin;
+    if (choice < 1 || choice > 16) {
+        goto begin;
+    }
     return choice;
 }
 
@@ -101,8 +103,8 @@ void StatisticMenu(const int x, const int y, int menuSize, User user, Settings s
 int startMenu(const int x, const int y, int menuSize, int arrSize, string* MenuParagraph, string Name, Settings settings) {
     system("cls");
     int key, activeOption{ 0 };
-    MenuPrint(menuSize, x, y, settings.graphUnit, Name, settings.color);        // Виведення меню без кнопок
-    MenuOptionsPrint(menuSize, x, y, activeOption, MenuParagraph, arrSize, settings.color);     // Виведення кнопок
+    MenuPrint(menuSize, x, y, settings.graphUnit, Name, settings.color);        // Display menu without buttons
+    MenuOptionsPrint(menuSize, x, y, activeOption, MenuParagraph, arrSize, settings.color);     // Display buttons
     while (true) {
         key = _getch();
         if (key != -1) {
@@ -112,13 +114,21 @@ int startMenu(const int x, const int y, int menuSize, int arrSize, string* MenuP
                 return activeOption;
                 break;
             case UP_ARROW:
-                if (activeOption > 0) activeOption--;
-                else activeOption = arrSize - 1;
+                if (activeOption > 0) {
+                    activeOption--;
+                }
+                else {
+                    activeOption = arrSize - 1;
+                }
                 MenuOptionsPrint(menuSize, x, y, activeOption, MenuParagraph, arrSize, settings.color);
                 break;
             case DOWN_ARROW:
-                if (activeOption < arrSize - 1) activeOption++;
-                else activeOption = 0;
+                if (activeOption < arrSize - 1) {
+                    activeOption++;
+                }
+                else {
+                    activeOption = 0;
+                }
                 MenuOptionsPrint(menuSize, x, y, activeOption, MenuParagraph, arrSize, settings.color);
                 break;
             default: break;

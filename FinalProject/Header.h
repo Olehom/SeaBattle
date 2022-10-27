@@ -12,7 +12,6 @@ enum Actions {
     BOT_SHIP_DESTROY = 5,
 };
 
-// Enums
 enum ConsoleColor {
     // Standard text colors
     GRAY = 8, BLUE, GREEN,
@@ -41,7 +40,7 @@ enum Cells {
     AROUND_DESTROY = 4, SHIP = 5,
 };
 
-enum Positions {        // Можливі позиції полів. Це зручно, тому-що можна легко регулювати розміщення певних елементів.
+enum Positions {        // Possible positions of elements
     Y_ALL = 8,
     Y_WIN = 12,
     Y_MESSAGES = 19,
@@ -72,21 +71,21 @@ struct User {
 };
 
 struct AI {
-    int hintX{ -1 };  // Перше попадання по X
-    int hintY{ -1 };  // Перше попадання по Y
+    int hintX{ -1 };  // First hit on X
+    int hintY{ -1 };  // First hit on Y
     int decksCount{ 0 };
-    int dir{ 0 };     // Напрямок наступного пострілу
-    int x{ -1 };      // Наступний постріл по x
-    int y{ -1 };      // Наступний постріл по y
+    int dir{ 0 };     // Direction of next shot
+    int x{ -1 };      // Next hit on X
+    int y{ -1 };      // Next hit on Y
 };
 
 struct Cell {
-    int type = 0;         // Змінна клітинка
-    int verifyType = 0;   // Незмінна клітинка
+    int type = 0;         // Changed cell
+    int verifyType = 0;   // Unchanged cell
 };
 
 struct Field {
-    Cell cells[10][10];                     // Масив клітинок
+    Cell cells[10][10];                     // Masive of cells
     int ships[10]{ 4,3,3,2,2,2,1,1,1,1 };
     int shipCount{ 0 };
 };

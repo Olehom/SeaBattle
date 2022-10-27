@@ -126,14 +126,18 @@ void difficultyChoiceAttack(Settings settings, Field& Field, AI& Ai, int& action
     if (settings.difficulty) {
         step = !step;
         if (AIAttack(Field, Ai, action)) {
-            if (Ai.decksCount == 0) fieldAroundInsert(Field, Ai.hintY, Ai.hintX, AROUND_DESTROY);
+            if (Ai.decksCount == 0) {
+                fieldAroundInsert(Field, Ai.hintY, Ai.hintX, AROUND_DESTROY);
+            }
             step = !step;
         }
     }
     else {
         step = !step;
         if (botAttack(Field, action,x, y)) {
-            if (isShips(Field.ships)) fieldAroundInsert(Field, x, y, AROUND_DESTROY);
+            if (isShips(Field.ships)) {
+                fieldAroundInsert(Field, x, y, AROUND_DESTROY);
+            }
             step = !step;
         }
     }
@@ -192,7 +196,9 @@ void play(Field& playerField, Field& enemyField, Settings settings, User& user) 
         }
         actionDescription(X_MESSAGES * 2, Y_MESSAGES, action, settings.color);
     }
-    if (isShips(playerField.ships)) name = "Переміг бот";
+    if (isShips(playerField.ships)) {
+        name = "Переміг бот";
+    }
     else {
         name = "Ви перемогли";
         user.wins++;

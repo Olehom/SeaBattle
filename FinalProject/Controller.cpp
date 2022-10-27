@@ -41,8 +41,12 @@ bool changeDifficulty(User user, Settings settings) {
 }
 
 void Statistics(User user, Settings settings) {
-    if (user.games == 0) user.percentOfWin = 0;
-    else user.percentOfWin = (user.wins * 100 / user.games);
+    if (user.games == 0) {
+        user.percentOfWin = 0;
+    }
+    else {
+        user.percentOfWin = (user.wins * 100 / user.games);
+    }
     saveUser(user);
     StatisticMenu(X_MENU * 2, Y_ALL, 13, user, settings);
 }
