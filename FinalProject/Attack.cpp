@@ -11,18 +11,18 @@ void actionDescription(int x, int y, int action, ConsoleColor color) {
     SetCursorPosition(x, y);
     cout << "                                                   ";
     SetCursorPosition(x, y);
-    cout << "Ä³ÿ: ";
+    cout << "Ã„Â³Ã¿: ";
     switch (action) {
-    case PLAYER_MISS: cout << "Âè í³êóäè íå ïîïàëè!"; break;
+    case PLAYER_MISS: cout << "Ã‚Ã¨ Ã­Â³ÃªÃ³Ã¤Ã¨ Ã­Ã¥ Ã¯Ã®Ã¯Ã Ã«Ã¨!"; break;
         Sleep(250); break;
-    case BOT_MISS: cout << "Áîò í³êóäè íå ïîïàâ!"; break;
+    case BOT_MISS: cout << "ÃÃ®Ã² Ã­Â³ÃªÃ³Ã¤Ã¨ Ã­Ã¥ Ã¯Ã®Ã¯Ã Ã¢!"; break;
         Sleep(250); break;
-    case PLAYER_DECK_DESTROY: cout << "Áîò çðóéíóâàâ âàøó ïàëóáó!";
+    case PLAYER_DECK_DESTROY: cout << "ÃÃ®Ã² Ã§Ã°Ã³Ã©Ã­Ã³Ã¢Ã Ã¢ Ã¢Ã Ã¸Ã³ Ã¯Ã Ã«Ã³Ã¡Ã³!";
         Sleep(750); break;
-    case PLAYER_SHIP_DESTROY: cout << "Áîò çðóéíóâàâ âàø êîðàáåëü!";
+    case PLAYER_SHIP_DESTROY: cout << "ÃÃ®Ã² Ã§Ã°Ã³Ã©Ã­Ã³Ã¢Ã Ã¢ Ã¢Ã Ã¸ ÃªÃ®Ã°Ã Ã¡Ã¥Ã«Ã¼!";
         Sleep(750); break;
-    case BOT_DECK_DESTROY: cout << "Âè çðóéíóâàëè ïàëóáó áîòà!"; break;
-    case BOT_SHIP_DESTROY: cout << "Âè çðóéíóâàëè êîðàáåëü áîòà!"; break;
+    case BOT_DECK_DESTROY: cout << "Ã‚Ã¨ Ã§Ã°Ã³Ã©Ã­Ã³Ã¢Ã Ã«Ã¨ Ã¯Ã Ã«Ã³Ã¡Ã³ Ã¡Ã®Ã²Ã !"; break;
+    case BOT_SHIP_DESTROY: cout << "Ã‚Ã¨ Ã§Ã°Ã³Ã©Ã­Ã³Ã¢Ã Ã«Ã¨ ÃªÃ®Ã°Ã Ã¡Ã¥Ã«Ã¼ Ã¡Ã®Ã²Ã !"; break;
     default: break;
     }
     SetColor(BLACK, BLACK);
@@ -66,7 +66,6 @@ bool botAttack(Field& Field, int& action, int& xReturn, int& yReturn) {
 
 bool playerAttack(Field& botField, int& action, Settings settings, Field& playerField, User user) {
     int dir{0}, key, x{0}, y{0}, shipSize{0};
-    bool trash{ true };
     while (true) {
         fieldPrint(botField, -1, -1, Y_ALL, true, X_BOT_FIGHT, settings.color);
         key = _getch();
@@ -171,7 +170,7 @@ void botPlay(Field& botField1, Field& botField2, Settings settings) {
         }
         Sleep(75);
     }
-    name = !isShips(botField2.ships) ? "Ïåðåì³ã äðóãèé áîò" : "Ïåðåì³ã ïåðøèé áîò";
+    name = !isShips(botField2.ships) ? "ÃÃ¥Ã°Ã¥Ã¬Â³Ã£ Ã¤Ã°Ã³Ã£Ã¨Ã© Ã¡Ã®Ã²" : "ÃÃ¥Ã°Ã¥Ã¬Â³Ã£ Ã¯Ã¥Ã°Ã¸Ã¨Ã© Ã¡Ã®Ã²";
     winAction(botField1, botField2, settings, name);
 }
 
@@ -198,10 +197,10 @@ void play(Field& playerField, Field& enemyField, Settings settings, User& user) 
         actionDescription(X_MESSAGES * 2, Y_MESSAGES, action, settings.color);
     }
     if (isShips(playerField.ships)) {
-        name = "Ïåðåì³ã áîò";
+        name = "ÃÃ¥Ã°Ã¥Ã¬Â³Ã£ Ã¡Ã®Ã²";
     }
     else {
-        name = "Âè ïåðåìîãëè";
+        name = "Ã‚Ã¨ Ã¯Ã¥Ã°Ã¥Ã¬Ã®Ã£Ã«Ã¨";
         user.wins++;
     }
     user.games++;
