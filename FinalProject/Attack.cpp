@@ -66,6 +66,7 @@ bool botAttack(Field& Field, int& action, int& xReturn, int& yReturn) {
 
 bool playerAttack(Field& botField, int& action, Settings settings, Field& playerField, User user) {
     int dir{0}, key, x{0}, y{0}, shipSize{0};
+    bool trash{ true };
     while (true) {
         fieldPrint(botField, -1, -1, Y_ALL, true, X_BOT_FIGHT, settings.color);
         key = _getch();
@@ -104,7 +105,7 @@ bool playerAttack(Field& botField, int& action, Settings settings, Field& player
             break;
         case ESC:
             saveUserGame(user, playerField, botField);
-            exit(0);
+            Exit(*(new bool));
             break;
         default: break;
         }

@@ -112,6 +112,7 @@ void loadUserGame(const User& user, Field& Field1, Field& Field2);
 char changeChar(Settings settings);
 void settingsToDefault(User& user);
 void saveUser(const User& user); 
+void Exit(bool& active);
 bool gameExists(const User& user);
 User loginUser();
 User registerNewUser();

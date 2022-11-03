@@ -251,5 +251,6 @@ void userFieldPlacing(Field& Field, Settings settings) {
     int i;
     for (i = 0; i < 10; i++) {
         shipPlace(Field, Field.ships[i], settings);
+        Field.shipCount++;
     }
 }
